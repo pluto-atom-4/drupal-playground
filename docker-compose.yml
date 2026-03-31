@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: drupal
+      POSTGRES_USER: drupal
+      POSTGRES_PASSWORD: drupal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U drupal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  drupal:
+    build:
+      context: ./drupal-site
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_NAME: drupal
+      DB_USER: drupal
+      DB_PASSWORD: drupal
+      DB_HOST: postgres
+      DB_PORT: 5432
+    ports:
+      - "8080:80"
+    volumes:
+      - ./drupal-site/web:/var/www/html/web
+      - ./drupal-site/config:/var/www/html/config
+    working_dir: /var/www/html
+
+  shiny:
+    image: rocker/shiny:latest
+    ports:
+      - "3838:3838"
+    volumes:
+      - ./shiny-apps:/srv/shiny-server
+    environment:
+      SHINY_LOG_LEVEL: info
+
+volumes:
+  postgres_data:

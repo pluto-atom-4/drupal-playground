@@ -1,0 +1,60 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+
+# Drupal
+drupal-site/web/sites/*/settings*.php
+drupal-site/web/sites/*/services*.yml
+drupal-site/web/sites/*/files/*
+!drupal-site/web/sites/*/files/.gitkeep
+drupal-site/web/sites/*/private/*
+drupal-site/vendor/
+drupal-site/web/core/
+drupal-site/web/modules/contrib/
+drupal-site/web/themes/contrib/
+drupal-site/web/profiles/contrib/
+drupal-site/web/libraries/
+composer.lock
+
+# R/RStudio
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.Rproj.user/
+rsconnect/
+.shiny/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build & Dependencies (Node, if used)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (if used)
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Docker
+docker-compose.override.yml
+
+# DDEV
+.ddev/local/
+.ddev/commands/
+
+# OS
+.AppleDouble
+.LSOverride
+*.bak
