@@ -54,37 +54,43 @@ File > Open > /path/to/drupal-playground
 
 PhpStorm detects DDEV automatically. You'll see a prompt: **"Configure PHP for Drupal"** → Click **Yes**.
 
-### 2. Configure DDEV with SQLite
+### 2. Configure DDEV with PostgreSQL
 
 ```bash
 cd drupal-site
 
-# Initialize DDEV environment with SQLite
-ddev config --project-type=drupal10 --docroot=web --database=sqlite
+# Initialize DDEV environment with PostgreSQL 15
+# (DDEV requires a database service; SQLite is file-based and not supported via ddev config)
+ddev config --project-type=drupal10 --docroot=web --database=postgres:15
 ```
 
 PhpStorm will prompt to configure PHP interpreter. Select DDEV's PHP.
 
+**Note on SQLite**: While DDEV requires a database service container (PostgreSQL, MySQL, etc.),
+Drupal can still use SQLite directly if needed. However, PostgreSQL is lightweight and provides
+production parity. For local development, PostgreSQL is recommended.
+
 ### 3. Verify DDEV Configuration
 
-Edit `.ddev/config.yaml`:
+Check the generated `.ddev/config.yaml`:
 ```yaml
-name: drupal-playground
+name: drupal-site
 type: drupal10
 docroot: web
-database:
-  type: sqlite
-  # SQLite stores in: .ddev/db/drupal.sqlite
+database: postgres:15
 php_version: "8.2"
 timezone: UTC
 ```
+
+DDEV automatically creates and manages the PostgreSQL container.
 
 ### 4. Start DDEV & Install Drupal
 
 ```bash
 ddev start
+# This starts PostgreSQL container and PHP environment
 
-# Install Drupal (creates drupal.sqlite file)
+# Install Drupal
 ddev drush install \
   --site-name="CS109 Labs" \
   --account-name=admin \
@@ -95,16 +101,24 @@ ddev drush pm-install paragraphs asset_injector samlauth
 ddev drush en cs109_labs
 ```
 
-**Drupal URL**: http://drupal-playground.ddev.site
+**Drupal URL**: http://drupal-site.ddev.site
 
-**Database file**: `.ddev/db/drupal.sqlite` (automatically created)
+**Database**: PostgreSQL 15 (managed by DDEV, running in container)
+- Host: `postgres` (container name, accessible from within DDEV)
+- Database: `db` (created by DDEV automatically)
+- User: `db` (default DDEV user)
+- Password: `db` (default DDEV password)
 
-### 5. Configure SQLite in PhpStorm
+### 5. Configure PostgreSQL in PhpStorm
 
 ```
 Settings > Languages & Frameworks > Database > Data Sources
-  → [+] > SQLite
-  → Path: /path/to/drupal-playground/.ddev/db/drupal.sqlite
+  → [+] > PostgreSQL
+  → Host: localhost
+  → Port: 5432 (DDEV forwards this)
+  → Database: db
+  → User: db
+  → Password: db
   → Test Connection
 ```
 
@@ -298,31 +312,40 @@ drupal-site/web/modules/custom/cs109_labs/
 
 ## Database & Sample Data
 
-### SQLite Database (Drupal)
+### PostgreSQL Database (via DDEV)
 
-**Location**: `.ddev/db/drupal.sqlite` (file-based, no server)
+**Managed by DDEV**: Database runs in container; DDEV handles startup/shutdown
 
 **Backup & Restore**:
 ```bash
-# Backup
-cp .ddev/db/drupal.sqlite drupal-backup.sqlite
+# Backup database
+ddev export-db > drupal-backup.sql
 
-# Restore
-cp drupal-backup.sqlite .ddev/db/drupal.sqlite
+# Restore from backup
+ddev import-db < drupal-backup.sql
 ddev drush cache-rebuild
 ```
 
 **Reset to clean state**:
 ```bash
-rm .ddev/db/drupal.sqlite
+ddev stop
+ddev start
+# Database is automatically recreated
 ddev drush install --yes
 ddev drush pm-install paragraphs asset_injector samlauth
 ```
 
 **Query via PhpStorm**:
-1. View > Database
-2. Right-click SQLite > New Query
+1. View > Database (or Alt+Num 9)
+2. Right-click PostgreSQL connection > New Query
 3. Write and execute SQL
+
+**Query via command line**:
+```bash
+ddev drush sql-cli
+# or
+ddev drush sql-dump > export.sql
+```
 
 ### R Sample Data
 
@@ -484,12 +507,13 @@ ddev drush watchdog-show --severity=warning
 | Problem | Solution |
 |---------|----------|
 | DDEV won't start | `ddev restart`, check `ddev logs` |
-| SQLite database locked | Restart DDEV: `ddev stop && ddev start` |
+| PostgreSQL connection refused | `ddev start`, verify with `ddev drush sql-cli` |
+| Database permission errors | Run `ddev drush cache-rebuild` and retry |
 | R packages won't install | `install.packages(..., repos="https://cloud.r-project.org")` |
 | Drupal module changes not reflected | `ddev drush cache-rebuild` |
 | PhpStorm can't find PHP | Settings > PHP > CLI Interpreter > Configure DDEV |
 | Shiny app won't reload | Stop (Ctrl+C), re-run `Rscript -e "shiny::runApp()"` |
-| SQLite not in Database tool | Settings > Database > [+] SQLite > Configure path |
+| PostgreSQL not in Database tool | Settings > Database > [+] PostgreSQL > Configure (host: localhost, port: 5432, db: db, user: db, pass: db) |
 
 ---
 
