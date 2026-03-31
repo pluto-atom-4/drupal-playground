@@ -92,11 +92,11 @@ docker-compose.override.yml      # Local docker compose overrides
 .docker-compose.local.yml
 
 # DDEV local configuration and database
-.ddev/db/drupal.sqlite           # SQLite database (always local, never commit)
-.ddev/db/                        # All DDEV database files
+.ddev/db/                        # All DDEV database files (PostgreSQL managed by container)
+.ddev/.docker-compose.*.yml      # Generated DDEV compose files
 .ddev/local/                     # Local DDEV config
 .ddev/commands/                  # Local DDEV commands
-.ddev/.docker-compose.*.yml      # Generated DDEV compose files
+.ddev/.mutagen*                  # Mutagen sync state files
 
 ################################################################################
 # TESTING ARTIFACTS
