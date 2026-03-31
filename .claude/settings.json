@@ -1,0 +1,351 @@
+{
+  "settings": {
+    "modelSelection": {
+      "default": "claude-opus-4-6",
+      "fastMode": "claude-opus-4-6",
+      "note": "Uses fastest Claude 4.6 model for optimal development experience"
+    },
+    "permissions": {
+      "trusted": {
+        "tools": [
+          "Bash",
+          "Read",
+          "Write",
+          "Edit",
+          "Glob",
+          "Grep",
+          "LSP",
+          "Agent"
+        ],
+        "scope": "Repository operations: file edits, testing, debugging, shell execution"
+      },
+      "requireConfirmation": {
+        "actions": [
+          "git push to main or master",
+          "git rebase or reset --hard",
+          "git force push",
+          "delete files or directories",
+          "docker-compose down",
+          "database migrations",
+          "environment variable changes"
+        ],
+        "reason": "Prevent accidental destructive operations on shared repository"
+      }
+    },
+    "hooks": {
+      "beforeCommit": {
+        "enabled": true,
+        "commands": [
+          {
+            "trigger": "before any git commit",
+            "command": "bash -c 'if [[ -f .env.local ]]; then echo \"ERROR: .env.local found in commit\"; exit 1; fi'",
+            "description": "Prevent committing sensitive environment files"
+          }
+        ]
+      },
+      "beforePush": {
+        "enabled": true,
+        "commands": [
+          {
+            "trigger": "before git push",
+            "command": "bash -c 'git log --oneline -5 | head -1'",
+            "description": "Show latest commit before pushing for verification"
+          }
+        ]
+      },
+      "afterPull": {
+        "enabled": true,
+        "commands": [
+          {
+            "trigger": "after git pull from origin",
+            "command": "bash -c 'echo \"Repository updated. Run: ddev start && ddev drush cache-rebuild\" if this is a Drupal environment'",
+            "description": "Remind developer to refresh environment after pulling changes"
+          }
+        ]
+      },
+      "testRunners": {
+        "enabled": true,
+        "autoRunOn": ["before creating PR", "before merging main"],
+        "commands": [
+          {
+            "name": "R tests",
+            "command": "cd shiny-apps && R -e \"testthat::test_dir('tests/testthat')\"",
+            "timeout": 60000,
+            "failureHandling": "warn"
+          },
+          {
+            "name": "Drupal tests",
+            "command": "cd drupal-site && ./vendor/bin/phpunit --bootstrap=web/autoload.php web/modules/custom/cs109_labs",
+            "timeout": 90000,
+            "failureHandling": "warn"
+          }
+        ]
+      },
+      "linting": {
+        "enabled": true,
+        "autoRunOn": "file save",
+        "commands": [
+          {
+            "name": "R linter",
+            "pattern": "shiny-apps/**/*.R",
+            "command": "R -e \"lintr::lint('{file}')\"",
+            "failureHandling": "info"
+          },
+          {
+            "name": "PHP CodeSniffer",
+            "pattern": "drupal-site/**/*.php",
+            "command": "cd drupal-site && ./vendor/bin/phpcs --standard=Drupal {file}",
+            "failureHandling": "info"
+          }
+        ]
+      }
+    },
+    "codeStyle": {
+      "r": {
+        "indentation": "2 spaces",
+        "naming": {
+          "functions": "snake_case",
+          "variables": "camelCase",
+          "files": "kebab-case"
+        },
+        "maxLineLength": 100
+      },
+      "php": {
+        "indentation": "2 spaces",
+        "naming": {
+          "classes": "PascalCase",
+          "methods": "camelCase",
+          "constants": "UPPER_SNAKE_CASE"
+        },
+        "standard": "PSR-12 (Drupal variant)"
+      },
+      "documentation": {
+        "comments": "Explain 'why', not 'what'—code shows the what",
+        "typeAnnotations": "Required for PHP; recommended for R",
+        "testCoverage": "Minimum 70% for all modules"
+      }
+    },
+    "environmentVariables": {
+      "DDEV_ENABLED": "true",
+      "R_LIBS_USER": "$HOME/.R/library",
+      "DRUPAL_ENV": "local",
+      "SHINY_PORT": "3838",
+      "DATABASE_TYPE": "sqlite"
+    },
+    "ide": {
+      "recommended": "JetBrains PhpStorm",
+      "plugins": [
+        {
+          "name": "Drupal Symfony Bridge",
+          "purpose": "Drupal hook completion, service autocomplete"
+        },
+        {
+          "name": "R Language Support",
+          "purpose": "R syntax, package management, debugging"
+        },
+        {
+          "name": "Database Tools",
+          "purpose": "SQLite query editor and explorer"
+        },
+        {
+          "name": "Git Integration",
+          "purpose": "GitHub operations, branch management, commit workflow"
+        }
+      ],
+      "shortcuts": {
+        "terminal": "Alt+F12",
+        "git": "Ctrl+K (commit), Ctrl+Shift+K (push)",
+        "database": "Alt+Num 9",
+        "goToDefinition": "Ctrl+Click",
+        "findUsages": "Alt+F7"
+      }
+    },
+    "versionControl": {
+      "defaultBranch": "main",
+      "branching": {
+        "feature": "feature/name-of-feature",
+        "bugfix": "bugfix/issue-number-description",
+        "docs": "docs/topic-area"
+      },
+      "commitStyle": {
+        "format": "Conventional Commits (type: description)",
+        "types": [
+          "feat: New feature",
+          "fix: Bug fix",
+          "docs: Documentation changes",
+          "refactor: Code refactoring (no feature change)",
+          "test: Test additions or improvements",
+          "style: Formatting (spaces, quotes, etc.)",
+          "chore: Maintenance, dependencies, config"
+        ],
+        "bodyFormat": "Explain 'why' the change was made, not 'what' changed (can be seen in diff)",
+        "coAuthor": "Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>"
+      },
+      "pullRequests": {
+        "requireReview": true,
+        "requireTests": true,
+        "protectedBranches": ["main"],
+        "template": {
+          "title": "Clear, concise description (under 70 chars)",
+          "body": [
+            "## Summary",
+            "1-3 bullet points of what changed and why",
+            "",
+            "## Test plan",
+            "Checklist of how to verify the changes work",
+            "",
+            "## Related issues",
+            "Link to GitHub issues if applicable"
+          ]
+        }
+      }
+    },
+    "documentation": {
+      "structure": {
+        "root": "CLAUDE.md (This file, architecture and quick reference)",
+        "docs": [
+          "docs/start-from-here.md (Architectural plan and design rationale)",
+          "docs/DEVELOPMENT.md (Local development setup and daily workflows)",
+          "docs/TESTING.md (Testing strategies and best practices)",
+          "README.md (Quick start and project overview)"
+        ]
+      },
+      "updatePolicy": "Update docs when:",
+      "triggers": [
+        "Architecture changes (update CLAUDE.md)",
+        "Development workflows change (update docs/DEVELOPMENT.md)",
+        "New testing approach (update docs/TESTING.md)",
+        "After major refactoring (update relevant doc)"
+      ]
+    },
+    "agentTeamConfiguration": {
+      "enabled": true,
+      "agents": [
+        {
+          "name": "codeExplorer",
+          "type": "Explore",
+          "role": "Codebase analysis and file discovery",
+          "triggers": [
+            "When searching for files across multiple directories",
+            "When understanding code patterns and architecture",
+            "When analyzing how systems interact"
+          ],
+          "scope": {
+            "fileTypes": ["*.R", "*.php", "*.yml", "*.json"],
+            "excluded": ["vendor/", "node_modules/", ".git/"]
+          }
+        },
+        {
+          "name": "testRunner",
+          "type": "Agent",
+          "role": "Execute tests and report results",
+          "triggers": [
+            "Before committing code",
+            "Before pushing to GitHub",
+            "On PR creation"
+          ],
+          "capabilities": {
+            "runTests": ["testthat", "shinytest2", "phpunit"],
+            "reportCoverage": true,
+            "timeout": 120000
+          }
+        },
+        {
+          "name": "architect",
+          "type": "Plan",
+          "role": "Design implementation approach for complex features",
+          "triggers": [
+            "Adding new lab modules",
+            "Architectural changes",
+            "Large refactoring"
+          ],
+          "responsibilities": [
+            "Review codebase structure",
+            "Identify affected components",
+            "Design implementation steps",
+            "Suggest testing approach"
+          ]
+        }
+      ]
+    },
+    "workflowAutomation": {
+      "enabled": true,
+      "scenarios": [
+        {
+          "name": "New Lab Development",
+          "steps": [
+            "Create feature branch: feature/lab-NN-name",
+            "Write unit tests first (TDD approach)",
+            "Implement app.R with reactive patterns",
+            "Run shinytest2 snapshot tests",
+            "Update sample data in data/",
+            "Create integration test with Drupal",
+            "Commit with clear messages",
+            "Push and create PR with test results"
+          ]
+        },
+        {
+          "name": "Bug Fix Workflow",
+          "steps": [
+            "Create bugfix branch: bugfix/issue-number",
+            "Add test case that reproduces bug",
+            "Fix the bug",
+            "Verify test now passes",
+            "Run full test suite",
+            "Commit with 'fix:' type",
+            "Link to issue in PR"
+          ]
+        },
+        {
+          "name": "Documentation Update",
+          "steps": [
+            "Create docs branch: docs/topic",
+            "Update relevant .md files",
+            "Link from CLAUDE.md if applicable",
+            "Verify formatting and links",
+            "Commit with 'docs:' type"
+          ]
+        }
+      ]
+    },
+    "securityChecklist": {
+      "beforeCommit": [
+        "No .env or .env.local files",
+        "No hardcoded API keys or tokens",
+        "No sensitive student data in test files",
+        "No database dumps in repository"
+      ],
+      "beforePush": [
+        "No unencrypted secrets",
+        "No third-party API keys exposed",
+        "Code passes security linting"
+      ],
+      "beforeDeployment": [
+        "All security tests passing",
+        "Input validation in place (R + PHP)",
+        "HTTPS enforced in production",
+        "CSRF tokens enabled in Drupal"
+      ]
+    },
+    "performanceGuidelines": {
+      "r_shiny": {
+        "goal": "Render plots in < 500ms for student interaction to feel responsive",
+        "techniques": [
+          "Use bindCache() for common polynomial degrees (1-3)",
+          "Profile computations with microbenchmark",
+          "Avoid large data transfers; paginate if needed",
+          "Lazy-load data on demand"
+        ]
+      },
+      "drupal": {
+        "goal": "Page load < 200ms for course navigation",
+        "techniques": [
+          "Cache common queries with DrupalCache",
+          "Use lazy-loading for media",
+          "Minimize module count (load only needed)"
+        ]
+      },
+      "monitoring": "Use ShinyManager for Shiny app metrics; Drupal admin/reports for Drupal performance"
+    }
+  }
+}

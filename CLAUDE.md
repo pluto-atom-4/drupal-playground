@@ -378,9 +378,19 @@ docker build -t shiny-cs109:latest ./shiny-apps
 3. Verify enrollment API endpoint returns expected claims
 4. Test with a known student account; check Drupal audit log
 
+## Developer Guides
+
+**Getting started with this project?** Start here:
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** — Local development setup (PhpStorm, DDEV, SQLite), daily workflows, debugging
+- **[docs/TESTING.md](docs/TESTING.md)** — Testing strategies for R Shiny and Drupal, examples, CI/CD setup
+
+These guides provide step-by-step instructions and are the primary references for contributors.
+
+---
+
 ## Deployment & Scaling
 
-**Development**: DDEV + RStudio (single developer machine)
+**Development**: DDEV + PhpStorm (single developer machine)
 
 **Staging**: Docker Compose with persistent PostgreSQL; mount volumes for live code reload
 
