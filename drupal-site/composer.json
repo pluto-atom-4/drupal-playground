@@ -3,15 +3,63 @@
   "description": "Drupal project for CS109 interactive labs",
   "type": "project",
   "license": "MIT",
-  "minimum-stability": "stable",
-  "prefer-stable": true,
+  "homepage": "https://github.com/pluto-atom-4/drupal-playground",
+  "support": {
+    "docs": "https://www.drupal.org",
+    "chat": "https://drupal.org/community"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
   "require": {
-    "drupal/core": "^10.0",
+    "composer/installers": "^2.0",
+    "drupal/core-composer-scaffold": "^10.0",
+    "drupal/core-project-message": "^10.0",
+    "drupal/core-recommended": "^10.0",
     "drupal/paragraphs": "^1.0",
     "drupal/asset_injector": "^2.0",
-    "drupal/samlauth": "^3.0"
+    "drupal/samlauth": "^3.0",
+    "drush/drush": "^12.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
+  },
+  "conflict": {
+    "drupal/drupal": "*"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "cweagans/composer-patches": true,
+      "drupal/core-composer-scaffold": true,
+      "drupal/core-project-message": true,
+      "phpstan/extension-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "web/"
+      }
+    },
+    "installer-paths": {
+      "web/core": ["type:drupal-core"],
+      "web/libraries/{$name}": ["type:drupal-library"],
+      "web/modules/contrib/{$name}": ["type:drupal-module"],
+      "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "web/themes/contrib/{$name}": ["type:drupal-theme"],
+      "drush/Commands/contrib/{$name}": ["type:drupal-drush"]
+    },
+    "composer-exit-on-patch-failure": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    }
   }
 }
