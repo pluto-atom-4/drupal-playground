@@ -104,7 +104,9 @@ a:hover {
   color: var(--hc-crimson);
 }
 
-.nav-tabs .nav-link.active {
+/* Active tab styling - handle both Bootstrap 'active' and Drupal 'is-active' classes */
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.is-active {
   background-color: var(--hc-white);
   color: var(--hc-crimson);
   border-bottom: 3px solid var(--hc-crimson);
