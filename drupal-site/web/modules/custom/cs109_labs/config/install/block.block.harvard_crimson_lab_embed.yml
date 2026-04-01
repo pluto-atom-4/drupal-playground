@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - cs109_labs
+    - node
+  theme:
+    - harvard_crimson
+id: harvard_crimson_lab_embed
+theme: harvard_crimson
+region: content
+weight: 10
+provider: cs109_labs
+plugin: cs109_lab_embed
+settings:
+  id: cs109_lab_embed
+  label: 'Lab Embed'
+  label_display: '0'
+  provider: cs109_labs
+visibility:
+  entity_bundle:node:
+    id: entity_bundle:node
+    bundles:
+      lab_exercise: lab_exercise
+    context_mapping:
+      node: '@node.node_route_context:node'
+    negate: false

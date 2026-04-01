@@ -22,6 +22,13 @@ data <- data.frame(
 
 # UI Definition ================================================================
 ui <- fluidPage(
+  # iframe-resizer content-window script (required for responsive sizing in Drupal iframe)
+  tags$head(
+    tags$script(
+      src = "https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.9/js/iframeResizer.contentWindow.min.js"
+    )
+  ),
+
   # CSS for Harvard colors and styling
   tags$style(HTML("
     body {

@@ -1,0 +1,55 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.lab_exercise.field_lab_description
+    - field.field.node.lab_exercise.field_lab_number
+    - field.field.node.lab_exercise.field_lab_url
+    - node.type.lab_exercise
+  module:
+    - link
+    - text
+id: node.lab_exercise.default
+targetEntityType: node
+bundle: lab_exercise
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g. Lab 01: Polynomial Regression'
+    third_party_settings: {}
+  field_lab_number:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_lab_url:
+    type: link_default
+    weight: 2
+    region: content
+    settings:
+      placeholder_url: 'http://localhost:3838/lab-01-simple-regression'
+      placeholder_title: ''
+    third_party_settings: {}
+  field_lab_description:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {}
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {}
+hidden: {}

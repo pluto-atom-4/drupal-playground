@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {}
+name: 'Lab Exercise'
+type: lab_exercise
+description: 'An interactive R Shiny lab exercise for CS109.'
+help: null
+new_revision: false
+preview_mode: 1
+display_submitted: false

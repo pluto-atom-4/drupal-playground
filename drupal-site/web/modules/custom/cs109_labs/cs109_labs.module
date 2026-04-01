@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * CS109 Labs module — Lab Exercise content type and iframe embed.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_access().
+ *
+ * PHASE 4 PLACEHOLDER: Restrict lab_exercise node access to enrolled students.
+ * For now, grants view access to all authenticated users so the iframe renders.
+ * Replace the body with a real enrollment verification call in Phase 4.
+ */
+function cs109_labs_node_access(NodeInterface $node, $op, $account) {
+  if ($node->bundle() === 'lab_exercise' && $op === 'view') {
+    // TODO (Phase 4): Query SimpleSAMLphp/OIDC enrollment claims here.
+    // Return AccessResult::forbidden() if student is not enrolled in CS109.
+    return \Drupal\Core\Access\AccessResult::neutral();
+  }
+  return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Attach CSP meta tag on lab_exercise nodes to allow the Shiny iframe origin.
+ * nginx/Apache-level CSP headers are preferred in production; this is a
+ * development-only fallback.
+ */
+function cs109_labs_page_attachments(array &$attachments) {
+  $route_match = \Drupal::routeMatch();
+  $node = $route_match->getParameter('node');
+  if ($node instanceof NodeInterface && $node->bundle() === 'lab_exercise') {
+    // Attach the lab-embed library (iframe-resizer host script).
+    $attachments['#attached']['library'][] = 'cs109_labs/lab-embed';
+  }
+}

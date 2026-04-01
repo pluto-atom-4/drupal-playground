@@ -1,0 +1,4 @@
+view lab embed:
+  title: 'View lab embed iframe'
+  description: 'Allow users to see the Shiny lab iframe. Phase 4 will gate this on enrollment.'
+  restrict access: false

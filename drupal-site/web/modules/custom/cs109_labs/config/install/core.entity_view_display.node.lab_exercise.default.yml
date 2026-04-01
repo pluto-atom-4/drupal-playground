@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.lab_exercise.field_lab_description
+    - field.field.node.lab_exercise.field_lab_number
+    - field.field.node.lab_exercise.field_lab_url
+    - node.type.lab_exercise
+  module:
+    - link
+    - text
+id: node.lab_exercise.default
+targetEntityType: node
+bundle: lab_exercise
+mode: default
+content:
+  field_lab_number:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {}
+    weight: 0
+    region: content
+  field_lab_description:
+    type: text_default
+    label: above
+    settings: {}
+    third_party_settings: {}
+    weight: 1
+    region: content
+  field_lab_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      url_plain: true
+      rel: ''
+      target: ''
+    third_party_settings: {}
+    weight: 2
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {}
+    third_party_settings: {}
+hidden: {}
