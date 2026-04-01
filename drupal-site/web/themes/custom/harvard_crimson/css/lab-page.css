@@ -1,16 +1,36 @@
 /* Harvard Crimson Theme — Lab Exercise page overrides */
 
-/* Lab page two-column layout: sidebar (controls/info) + main (iframe) */
+/* Article wrapper for Lab Exercise */
 .node--type-lab-exercise.node--view-mode-full {
-  display: grid;
-  grid-template-columns: 1fr;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Article layout wrapper: responsive grid for sidebar + main content */
+.node--type-lab-exercise__layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 1.5rem;
 }
 
 @media (min-width: 992px) {
-  .node--type-lab-exercise.node--view-mode-full {
+  .node--type-lab-exercise__layout {
+    display: grid;
     grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    align-items: start;
   }
+}
+
+/* Lab description section spanning full width within main content area */
+.lab-exercise__description-full {
+  width: 100%;
+  font-size: 0.9rem;
+  color: var(--hc-gray-600);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 /* Lab metadata sidebar */
@@ -19,6 +39,17 @@
   border: 1px solid var(--hc-border);
   border-radius: 4px;
   padding: 1.25rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+@media (min-width: 992px) {
+  .lab-exercise__sidebar {
+    width: auto;
+    height: fit-content;
+    position: sticky;
+    top: 1rem;
+  }
 }
 
 .lab-exercise__sidebar .lab-number-badge {
@@ -41,13 +72,16 @@
   margin-bottom: 1rem;
 }
 
-.lab-exercise__description {
-  font-size: 0.9rem;
-  color: var(--hc-gray-600);
-  line-height: 1.6;
+/* Lab main area (description + iframe region) */
+.lab-exercise__main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Lab main area (iframe region) */
-.lab-exercise__main {
-  min-height: 600px;
+@media (min-width: 992px) {
+  .lab-exercise__main {
+    width: auto;
+  }
 }

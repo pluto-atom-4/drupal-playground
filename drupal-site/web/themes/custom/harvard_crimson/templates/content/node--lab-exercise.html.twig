@@ -23,7 +23,7 @@
 
   <div class="node--type-lab-exercise__layout row g-4">
 
-    {# Left sidebar: lab number badge, title, description #}
+    {# Left sidebar: lab number badge and title #}
     <aside class="lab-exercise__sidebar col-12 col-lg-3">
       {% if content.field_lab_number %}
         <span class="lab-number-badge">
@@ -32,16 +32,16 @@
       {% endif %}
 
       <h1 class="page-title">{{ label }}</h1>
+    </aside>
 
+    {# Main area: description (full width) + LabEmbedBlock #}
+    <div class="lab-exercise__main col-12 col-lg-9">
       {% if content.field_lab_description %}
-        <div class="lab-exercise__description">
+        <div class="lab-exercise__description-full">
           {{ content.field_lab_description }}
         </div>
       {% endif %}
-    </aside>
-
-    {# Main area: LabEmbedBlock is placed here by the block layout #}
-    <div class="lab-exercise__main col-12 col-lg-9">
+      
       {{ content|without('field_lab_number', 'field_lab_description', 'field_lab_url', 'links') }}
     </div>
 
