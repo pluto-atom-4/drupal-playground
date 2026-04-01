@@ -1,0 +1,11 @@
+name: 'CS109 Labs'
+type: module
+description: 'Lab Exercise content type and iframe embed block for Harvard CS109.'
+core_version_requirement: ^10.0
+package: CS109
+dependencies:
+  - drupal:node
+  - drupal:field
+  - drupal:text
+  - drupal:link
+  - drupal:block

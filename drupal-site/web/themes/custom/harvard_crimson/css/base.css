@@ -1,0 +1,78 @@
+/* Harvard Crimson Theme — Base Variables and Global Overrides */
+
+:root {
+  --hc-crimson:      #A51C30;
+  --hc-crimson-dark: #8b1628;
+  --hc-white:        #ffffff;
+  --hc-gray-100:     #f8f9fa;
+  --hc-gray-600:     #6c757d;
+  --hc-gray-800:     #343a40;
+  --hc-border:       #dee2e6;
+
+  /* Override Bootstrap primary */
+  --bs-primary:      #A51C30;
+  --bs-primary-rgb:  165, 28, 48;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--hc-gray-100);
+  color: var(--hc-gray-800);
+}
+
+a {
+  color: var(--hc-crimson);
+}
+
+a:hover {
+  color: var(--hc-crimson-dark);
+}
+
+/* Site header */
+.site-header {
+  background-color: var(--hc-crimson);
+  color: var(--hc-white);
+  padding: 0.75rem 1.5rem;
+}
+
+.site-header .site-name a {
+  color: var(--hc-white);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+/* Primary navigation */
+.navbar-crimson {
+  background-color: var(--hc-crimson);
+}
+
+.navbar-crimson .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar-crimson .nav-link:hover,
+.navbar-crimson .nav-link.is-active {
+  color: var(--hc-white);
+  border-bottom: 2px solid var(--hc-white);
+}
+
+/* Breadcrumb */
+.breadcrumb-region {
+  background-color: var(--hc-white);
+  border-bottom: 1px solid var(--hc-border);
+  padding: 0.5rem 1.5rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--hc-gray-600);
+}
+
+/* Main layout */
+.layout-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

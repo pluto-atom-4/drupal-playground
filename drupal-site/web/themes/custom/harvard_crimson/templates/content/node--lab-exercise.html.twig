@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Theme override for Lab Exercise nodes (full view mode).
+ *
+ * The LabEmbedBlock is placed via Block UI into the Content region.
+ * This template handles the two-column layout for the node fields
+ * (description, lab number in the sidebar, iframe in main).
+ */
+#}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    'node--view-mode-' ~ view_mode|clean_class,
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  <div class="node--type-lab-exercise__layout row g-4">
+
+    {# Left sidebar: lab number badge, title, description #}
+    <aside class="lab-exercise__sidebar col-12 col-lg-3">
+      {% if content.field_lab_number %}
+        <span class="lab-number-badge">
+          Lab {{ content.field_lab_number }}
+        </span>
+      {% endif %}
+
+      <h1 class="page-title">{{ label }}</h1>
+
+      {% if content.field_lab_description %}
+        <div class="lab-exercise__description">
+          {{ content.field_lab_description }}
+        </div>
+      {% endif %}
+    </aside>
+
+    {# Main area: LabEmbedBlock is placed here by the block layout #}
+    <div class="lab-exercise__main col-12 col-lg-9">
+      {{ content|without('field_lab_number', 'field_lab_description', 'field_lab_url', 'links') }}
+    </div>
+
+  </div>
+
+</article>

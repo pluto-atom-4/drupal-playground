@@ -1,0 +1,53 @@
+/* Harvard Crimson Theme — Lab Exercise page overrides */
+
+/* Lab page two-column layout: sidebar (controls/info) + main (iframe) */
+.node--type-lab-exercise.node--view-mode-full {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .node--type-lab-exercise.node--view-mode-full {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+/* Lab metadata sidebar */
+.lab-exercise__sidebar {
+  background: var(--hc-white);
+  border: 1px solid var(--hc-border);
+  border-radius: 4px;
+  padding: 1.25rem;
+}
+
+.lab-exercise__sidebar .lab-number-badge {
+  display: inline-block;
+  background-color: var(--hc-crimson);
+  color: var(--hc-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  margin-bottom: 0.75rem;
+}
+
+.lab-exercise__sidebar h1.page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hc-gray-800);
+  margin-bottom: 1rem;
+}
+
+.lab-exercise__description {
+  font-size: 0.9rem;
+  color: var(--hc-gray-600);
+  line-height: 1.6;
+}
+
+/* Lab main area (iframe region) */
+.lab-exercise__main {
+  min-height: 600px;
+}

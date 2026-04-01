@@ -1,0 +1,19 @@
+iframe-resizer:
+  version: '4.3.9'
+  js:
+    https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.9/js/iframeResizer.min.js:
+      type: external
+      minified: true
+  dependencies:
+    - core/drupal
+
+lab-embed:
+  version: VERSION
+  js:
+    js/lab-embed.js: {}
+  css:
+    component:
+      css/lab-embed.css: {}
+  dependencies:
+    - cs109_labs/iframe-resizer
+    - core/drupal

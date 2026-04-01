@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lab_url
+    - node.type.lab_exercise
+  module:
+    - link
+id: node.lab_exercise.field_lab_url
+field_name: field_lab_url
+entity_type: node
+bundle: lab_exercise
+label: 'Shiny App URL'
+description: 'URL of the R Shiny application. Must match configured Shiny server hostname.'
+required: true
+translatable: false
+default_value: {}
+default_value_callback: ''
+settings:
+  title: 0
+  link_type: 16
+field_type: link

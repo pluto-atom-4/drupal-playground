@@ -1,0 +1,15 @@
+name: 'Harvard Crimson'
+type: theme
+description: 'Bootstrap 5 theme with Harvard brand colors for CS109 labs.'
+core_version_requirement: ^10.0
+base theme: stable9
+libraries:
+  - harvard_crimson/global
+regions:
+  header: Header
+  primary_menu: 'Primary navigation'
+  breadcrumb: Breadcrumb
+  content: Content
+  sidebar_first: 'Left sidebar'
+  sidebar_second: 'Right sidebar'
+  footer: Footer

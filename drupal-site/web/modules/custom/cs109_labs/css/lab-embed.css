@@ -1,0 +1,24 @@
+/* CS109 Lab Embed — iframe container styles */
+
+.lab-embed__wrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  min-height: 600px;
+}
+
+.lab-embed__iframe {
+  display: block;
+  width: 1px;
+  min-width: 100%;
+  border: none;
+}
+
+.lab-embed__error {
+  padding: 1rem;
+  color: #A51C30;
+  font-weight: 500;
+}

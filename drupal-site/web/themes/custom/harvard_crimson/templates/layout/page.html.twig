@@ -1,0 +1,79 @@
+{#
+/**
+ * @file
+ * Harvard Crimson theme override for page layout.
+ *
+ * Uses Bootstrap 5 grid. The sidebar_first region is used for
+ * lab metadata on Lab Exercise nodes; for other pages it is hidden.
+ */
+#}
+<div class="layout-container">
+
+  <header class="site-header" role="banner">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="site-name">
+        <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home">
+          {%- if page.header -%}
+            {{ page.header }}
+          {%- else -%}
+            CS109 Labs
+          {%- endif -%}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {% if page.primary_menu %}
+    <nav class="navbar navbar-crimson" role="navigation" aria-label="{{ 'Primary navigation'|t }}">
+      <div class="container-fluid">
+        {{ page.primary_menu }}
+      </div>
+    </nav>
+  {% endif %}
+
+  {% if page.breadcrumb %}
+    <div class="breadcrumb-region">
+      {{ page.breadcrumb }}
+    </div>
+  {% endif %}
+
+  {% if page.highlighted %}
+    <div class="container-fluid highlighted py-2">
+      {{ page.highlighted }}
+    </div>
+  {% endif %}
+
+  <main role="main" class="py-3">
+    <a id="main-content" tabindex="-1"></a>
+
+    {% if page.sidebar_first %}
+      <div class="row g-3">
+        <aside class="col-12 col-lg-3" role="complementary">
+          {{ page.sidebar_first }}
+        </aside>
+        <div class="col-12 col-lg-9">
+          {{ page.content }}
+        </div>
+      </div>
+    {% else %}
+      <div class="row">
+        <div class="col-12">
+          {{ page.content }}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if page.sidebar_second %}
+      <aside class="col-12 col-lg-3" role="complementary">
+        {{ page.sidebar_second }}
+      </aside>
+    {% endif %}
+  </main>
+
+  {% if page.footer %}
+    <footer role="contentinfo" class="border-top mt-4 py-3 text-muted small">
+      {{ page.footer }}
+    </footer>
+  {% endif %}
+
+</div>

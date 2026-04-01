@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lab_description
+    - node.type.lab_exercise
+  module:
+    - text
+id: node.lab_exercise.field_lab_description
+field_name: field_lab_description
+entity_type: node
+bundle: lab_exercise
+label: 'Lab Description'
+description: 'A brief description of what the lab covers.'
+required: false
+translatable: true
+default_value: {}
+default_value_callback: ''
+settings:
+  allowed_formats: []
+field_type: text_long

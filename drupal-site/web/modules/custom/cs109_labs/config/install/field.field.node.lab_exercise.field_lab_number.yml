@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lab_number
+    - node.type.lab_exercise
+id: node.lab_exercise.field_lab_number
+field_name: field_lab_number
+entity_type: node
+bundle: lab_exercise
+label: 'Lab Number'
+description: 'Sequential lab number (e.g. 1 for lab-01).'
+required: true
+translatable: false
+default_value:
+  - value: 1
+default_value_callback: ''
+settings:
+  min: 1
+  max: ''
+  prefix: ''
+  suffix: ''
+field_type: integer
