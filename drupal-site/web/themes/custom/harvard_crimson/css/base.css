@@ -76,3 +76,36 @@ a:hover {
   margin: 0 auto;
   padding: 0 1rem;
 }
+
+/* Local tasks - horizontal tab layout */
+.nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.nav-tabs .nav-item {
+  display: flex;
+}
+
+.nav-tabs .nav-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--hc-border);
+  background-color: var(--hc-gray-100);
+  color: var(--hc-gray-800);
+  text-decoration: none;
+  border-bottom: none;
+  margin-right: 0.25rem;
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: var(--hc-white);
+  color: var(--hc-crimson);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--hc-white);
+  color: var(--hc-crimson);
+  border-bottom: 3px solid var(--hc-crimson);
+}
