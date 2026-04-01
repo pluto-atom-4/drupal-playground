@@ -5,6 +5,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  width: 100%;
+  max-width: none;
 }
 
 @media (min-width: 992px) {
@@ -45,6 +47,8 @@
   font-size: 0.9rem;
   color: var(--hc-gray-600);
   line-height: 1.6;
+  width: 100%;
+  max-width: none;
 }
 
 /* Lab main area (iframe region) */
